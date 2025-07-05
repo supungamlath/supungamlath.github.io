@@ -16,7 +16,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Real-time LSTM Fall Detection System</title>
+  <title>Spiking Neural Networks for Fall Detection</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -91,7 +91,7 @@
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Real-time LSTM Fall Detection System</h2>
+          <h2>Spiking Neural Networks for Fall Detection</h2>
         </div>
       </div>
     </section>
@@ -105,16 +105,22 @@
             <div class="portfolio-details-slider swiper">
               <div class="swiper-wrapper align-items-center">
                 <div class="swiper-slide">
-                  <video controls>
-                    <source src="assets/img/projects/fall-detection/video(1).mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
+                  <img src="assets/img/projects/fall-detection-snn/overview.png" alt="" />
                 </div>
                 <div class="swiper-slide">
-                  <video controls>
-                    <source src="assets/img/projects/fall-detection/video(2).mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
+                  <img src="assets/img/projects/fall-detection-snn/methodology.png" alt="" />
+                </div>
+                <div class="swiper-slide">
+                  <img src="assets/img/projects/fall-detection-snn/training.png" alt="" />
+                </div>
+                <div class="swiper-slide">
+                  <img src="assets/img/projects/fall-detection-snn/binary.png" alt="" />
+                </div>
+                <div class="swiper-slide">
+                  <img src="assets/img/projects/fall-detection-snn/multiclass.png" alt="" />
+                </div>
+                <div class="swiper-slide">
+                  <img src="assets/img/projects/fall-detection-snn/energy.png" alt="" />
                 </div>
               </div>
               <div class="swiper-pagination"></div>
@@ -127,46 +133,84 @@
               <ul>
                 <li><strong>Project Type</strong>: Individual</li>
                 <li>
-                  <strong>Project Duration</strong>: August 2023 - Ongoing
+                  <strong>Project Duration</strong>: April 2024 - June 2025
                 </li>
                 <li>
                   <strong>Github</strong>:
-                  <a href="https://github.com/supungamlath/fall-detection" target="_blank">supungamlath/fall-detection
-                  </a>
-                </li>
-                <li>
-                  <strong>Web App</strong>:
-                  <a href="https://fall-detection.streamlit.app/" target="_blank">fall-detection.streamlit.app
+                  <a href="https://github.com/supungamlath/SNN_Pipeline" target="_blank">supungamlath/SNN_Pipeline
                   </a>
                 </li>
               </ul>
             </div>
             <div class="portfolio-description">
-              <p>Annually, 37 million falls occur globally, posing a significant risk, especially for isolated elderly
-                individuals.</p>
-
-              <p>As part of my 5th semester project, I've developed a real-time fall detection system using Streamlit,
-                Openpifpaf, and PyTorch.</p>
-
-              <p>This method, based on the research <a href="https://doi.org/10.1117/12.2580700">Multi-camera,
-                  multi-person, and real-time fall detection using long short term memory</a> by Mohammad Taufeeque,
-                Samad Koita, Nicolai Spicher, and Thomas M. Deserno. uses OpenPifPaf for pose estimation and LSTM models
-                to classify falls into five classes: <code>None</code>, <code>Normal</code>, <code>Falling</code>,
-                <code>Warning</code>, <code>Fallen</code>.
+              <p>
+                The NeuroFall project introduces a novel, energy-efficient system for human fall detection using Spiking
+                Neural Networks (SNNs) and event-based vision, implemented on FPGA hardware. Conducted under the
+                supervision of Dr. Chathuranga Hettiarachchi, this project follows a neuromorphic
+                computing approach to address a critical safety need in elderly care.
+              </p>
+              <h5>From Video to Events</h5>
+              <p>
+                At the start of the project, traditional frame-based video was converted to event-based data emulating
+                Dynamic Vision Sensor (DVS) input. Using the UP-Fall dataset and tools like v2e and v2ce, RGB videos
+                were
+                converted into temporally
+                precise streams of visual events. This conversion emulates the functioning of biological vision,
+                enabling
+                sparse and fast data representation, ideal for spiking models.
               </p>
 
-              <p>The five features include:</p>
+              <h5>Designing and Training SNNs</h5>
+              <p>
+                Three SNN architectures were developed:
               <ul>
-                <li>Aspect ratio of the bounding box, capturing body configuration.</li>
-                <li>Logarithm of the angle between the vertical axis and the torso vector, adding non-linearity.</li>
-                <li>Rotation energy based on torso and head vectors, measuring motion.</li>
-                <li>Derivative of the bounding box ratio, showing changes in body configuration.</li>
-                <li>Generalized force using joint angles and velocities over 3 frames, capturing motion acceleration.
+                <li>
+                  A Feedforward SNN using Leaky Integrate-and-Fire (LIF) neurons
+                </li>
+                <li>
+                  A Recurrent SNN with temporal memory
+                </li>
+                <li>
+                  A novel Spiking UniFormer featuring spiking self-attention
                 </li>
               </ul>
+              These models were trained using surrogate gradients and backpropagation through time (BPTT), with F1
+              score
+              as the primary evaluation metric. The Spiking UniFormer showed standout performance, achieving an F1
+              score
+              of 85.05% in binary classification and 53.29% in multi-class scenarios—competitive with or outperforming
+              conventional ANN-based models.
+              </p>
 
-              <p>With the potential to save lives, this fall detection system addresses a critical need for vulnerable
-                groups of people.</p>
+              <h5>Efficient Hardware Deployment</h5>
+              <p>
+                To ensure real-world applicability, models were synthesized and deployed on the Digilent Nexys A7 FPGA
+                board using VHDL. With quantization techniques, models were compressed significantly—down to 4-bit
+                representations—while preserving accuracy. The hardware design featured state machine control, serial
+                input interfaces, and optimized memory usage.
+              </p>
+
+              <h5>Energy Advantage</h5>
+              <p>
+                Compared to traditional deep learning models, SNN implementations demonstrated drastically lower energy
+                consumption. For instance, the Spiking UniFormer used only 0.55 mJ, vastly lower than the 522.5 mJ
+                consumed by the UniFormer-S ANN. This highlights the potential of neuromorphic computing for low-power,
+                edge-deployed AI systems.
+              </p>
+
+              <h5>Deliverables</h5>
+              <p>
+                The project produced:
+              <ul>
+                <li>A custom event-based fall dataset</li>
+                <li>Trained SNN models with different hyper-parameters</li>
+                <li>Hardware design for FPGA</li>
+                <li>Three research publications</li>
+              </ul>
+
+              The NeuroFall system showcases the viability of real-time, low-power fall detection through biologically
+              inspired computing, paving the way for safer and smarter environments.
+              </p>
             </div>
           </div>
         </div>
